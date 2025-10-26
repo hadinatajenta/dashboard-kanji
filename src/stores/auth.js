@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { clearAuthToken, setAuthToken } from "@/services/httpClient";
+import { logout as logoutRequest } from "@/services/authService";
 
 const STORAGE_TOKEN_KEY = "kanji.token";
 const STORAGE_USER_KEY = "kanji.user";
@@ -39,7 +40,18 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
       setAuthToken(token);
     },
-    logout() {
+    async logout(detail) {
+      if (this.token) {
+        try {
+          await logoutRequest({ detail });
+        } catch (error) {
+          console.warn("Failed to notify backend about logout", error);
+        }
+      }
+
+      this.clearAuthState();
+    },
+    clearAuthState() {
       this.token = null;
       this.user = null;
       localStorage.removeItem(STORAGE_TOKEN_KEY);
@@ -48,3 +60,4 @@ export const useAuthStore = defineStore("auth", {
     },
   },
 });
+

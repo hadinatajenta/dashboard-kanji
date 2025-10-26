@@ -35,6 +35,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: "/bunpo",
+      name: "bunpo",
+      component: () => import("@/pages/BunpoPage.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
       path: "/settings",
       name: "settings",
       component: () => import("@/pages/SettingsPage.vue"),

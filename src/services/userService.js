@@ -5,7 +5,9 @@ export const fetchUsers = async () => {
   return response.data;
 };
 
-export const fetchUserLogs = async (params = {}) => {
-  const response = await httpClient.get("/api/users/logs", { params });
+export const fetchUserLogsByUser = async (userId, params = {}) => {
+  const response = await httpClient.get(`/api/users/${userId}/logs`, {
+    params,
+  });
   return response.data;
 };
